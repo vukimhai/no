@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Dịch vụ Mạng Xã Hội</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: linear-gradient(to right, #007BFF, #00c6ff);
+            color: white;
+        }
+
+        header {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+        }
+
+        nav button {
+            padding: 10px;
+            border: none;
+            background: white;
+            color: #007BFF;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .container {
+            padding: 20px;
+            display: none;
+        }
+
+        input {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 250px;
+        }
+
+        button.submit {
+            background: #28a745;
+            color: white;
+        }
+
+        .active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Dịch vụ Mạng Xã Hội</h1>
+</header>
+
+<nav>
+    <button onclick="showPage('login')">Đăng nhập</button>
+    <button onclick="showPage('register')">Đăng ký</button>
+    <button onclick="showPage('transfer')">Chuyển khoản</button>
+    <button onclick="showPage('admin')">Quản lý</button>
+</nav>
+
+<!-- Đăng nhập -->
+<div id="login" class="container active">
+    <h2>Đăng nhập</h2>
+    <input type="text" id="loginUser" placeholder="Tên đăng nhập">
+    <input type="password" id="loginPass" placeholder="Mật khẩu">
+    <button class="submit" onclick="login()">Đăng nhập</button>
+</div>
+
+<!-- Đăng ký -->
+<div id="register" class="container">
+    <h2>Đăng ký</h2>
+    <input type="text" id="regUser" placeholder="Tên đăng nhập">
+    <input type="password" id="regPass" placeholder="Mật khẩu">
+    <button class="submit" onclick="register()">Đăng ký</button>
+</div>
+
+<!-- Chuyển khoản -->
+<div id="transfer" class="container">
+    <h2>Chuyển khoản</h2>
+    <input type="text" id="bank" placeholder="Ngân hàng">
+    <input type="text" id="stk" placeholder="Số tài khoản">
+    <input type="number" id="amount" placeholder="Số tiền">
+    <button class="submit" onclick="transfer()">Chuyển</button>
+</div>
+
+<!-- Quản lý -->
+<div id="admin" class="container">
+    <h2>Quản lý hệ thống</h2>
+    <p>Danh sách người dùng:</p>
+    <ul id="userList"></ul>
+</div>
+
+<script>
+    let users = [];
+
+    function showPage(page) {
+        document.querySelectorAll('.container').forEach(el => el.classList.remove('active'));
+        document.getElementById(page).classList.add('active');
+    }
+
+    function register() {
+        let user = document.getElementById('regUser').value;
+        let pass = document.getElementById('regPass').value;
+
+        if(user && pass){
+            users.push({user, pass});
+            alert("Đăng ký thành công!");
+            updateUserList();
+        } else {
+            alert("Vui lòng nhập đầy đủ!");
+        }
+    }
+
+    function login() {
+        let user = document.getElementById('loginUser').value;
+        let pass = document.getElementById('loginPass').value;
+
+        let found = users.find(u => u.user === user && u.pass === pass);
+
+        if(found){
+            alert("Đăng nhập thành công!");
+        } else {
+            alert("Sai tài khoản!");
+        }
+    }
+
+    function transfer() {
+        let bank = document.getElementById('bank').value;
+        let stk = document.getElementById('stk').value;
+        let amount = document.getElementById('amount').value;
+
+        if(bank && stk && amount){
+            alert("Chuyển " + amount + " đến " + stk + " (" + bank + ") thành công!");
+        } else {
+            alert("Nhập đầy đủ thông tin!");
+        }
+    }
+
+    function updateUserList() {
+        let list = document.getElementById('userList');
+        list.innerHTML = "";
+        users.forEach(u => {
+            let li = document.createElement("li");
+            li.textContent = u.user;
+            list.appendChild(li);
+        });
+    }
+</script>
+
+</body>
+</html>
